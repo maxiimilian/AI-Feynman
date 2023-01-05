@@ -5,6 +5,7 @@ from scipy.linalg import *
 from sympy import Matrix
 from sympy import symbols, Add, Mul, S
 from .getPowers import getPowers
+import tqdm
 
 def dimensional_analysis(input,output,units):
     M = units[input[0]]
@@ -29,6 +30,8 @@ def load_data(pathdir, filename):
     return(variables.T,f_dependent)
 
 def dimensionalAnalysis(pathdir, filename, eq_symbols):
+    print("Performing dimensional analysis of input...")
+
     file = pd.read_excel("units.xlsx")
 
     units = {}
@@ -37,7 +40,8 @@ def dimensionalAnalysis(pathdir, filename, eq_symbols):
         val = np.array(val)
         units[file["Variable"][i]] = val
 
-    dependent_var = eq_symbols[-1]
+    # Replace linebreak character if it is contained in last row of file
+    dependent_var = eq_symbols[-1].replace("\n", "")
 
     file_sym = open(filename + "_dim_red_variables.txt" ,"w")
     file_sym.write(filename)
@@ -104,8 +108,9 @@ def dimensionalAnalysis(pathdir, filename, eq_symbols):
         func = np.array(func)
 
         # get the new variables needed
+        # This function can run very long so we add tqdm progress bar
         new_vars = []
-        for i in range(len(dimensional_analysis(input,output,units)[1])):
+        for i in tqdm.trange(len(dimensional_analysis(input,output,units)[1])):
             nv = 1
             for j in range(len(input)):
                 nv = nv*vars()[input[j]]**dimensional_analysis(input,output,units)[1][i][j]

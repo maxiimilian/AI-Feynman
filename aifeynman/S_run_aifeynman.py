@@ -263,7 +263,8 @@ def run_aifeynman(pathdir,filename,BF_try_time,BF_ops_file_type, polyfit_deg=4, 
             filename = filename + "_dim_red"
         else:
             DR_file = ""
-    except:
+    except Exception as e:
+        print(f"{type(e)} was caught: {e}. No dimensional analysis performed.")
         DR_file = ""
 
     # Split the data into train and test set

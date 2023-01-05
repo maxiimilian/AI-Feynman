@@ -4,3 +4,7 @@ sortedcontainers
 pandas
 scipy
 gfortran
+scikit-learn
+matplotlib
+openpyxl  # to open units.xlsx for dimensional analysis
+tqdm  # progress bar
