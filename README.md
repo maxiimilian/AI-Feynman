@@ -56,6 +56,54 @@ If test_percentage is different than zero, one more number is added in the begin
 ai_feynman_terminal_example.py allows calling the aiFeynman function from the command line. 
 (e.g. python ai_feynman_terminal_example.py --pathdir=../example_data/ --filename=example1.txt). Use python ai_feynman_terminal_example.py --help to display all the available parameters that can be passed to the function.
 
+## Operations file
+Four operations files are already predefined: `7ops.txt`, `10ops.txt`, `14ops.txt`, and `19ops.txt`. 
+You can create your own file with the following operator shorthand symbols (see [docs](https://ai-feynman.readthedocs.io/en/latest/inputformat.html)):
+
+```
+Binary:
++: add
+*: multiply
+-: subtract
+D: divide        (Put "D" instead of "/" in ops file, since f77 can't load it)
+
+Unary:
+>: increment    (x -> x+1)
+<: decrement    (x -> x-1)
+~: negate       (x-> -x)
+I: invert       (x->1/x) (Put "I" instead of "\" in file, since f77 can't load it)
+L: logaritm:    (x-> ln(x)
+E: exponentiate (x->exp(x))
+S: sin:         (x->sin(x))
+C: cos:         (x->cos(x))
+A: abs:         (x->abs(x))
+N: arcsin:      (x->arcsin(x))
+T: arctan:      (x->arctan(x))
+R: sqrt         (x->sqrt(x))
+O: double       (x->2*x); note that this is the letter "O", not zero
+J: double+1     (x->2*x+1)
+M: dilogarithm  (x -> Li_2(x); a k a Spence functions)
+
+nonary:
+0
+1
+P = pi
+a, b, c, ...: input variables for function (auto-defined and should not be listed in ops file)
+```
+
+## Dimensional analysis
+To perform dimensional analysis of the variables as first step, you need to do two things:
+- Pass the variable names as list of strings to `run_feynman()`: `run_feynman(..., var_names=["a", "b", "c"])`
+- Create an Excel file called `units.xlsx` in your working directory. This table needs to have 7 columns. 
+  A row is added for each variable which gives the unit as exponentials. The columns **have** to be named like this:
+  - `Variable`: Variable names aligning with thos passed to `run_feynman()`.
+  - `m`: Meter
+  - `s`: Second
+  - `kg`: Kilogram
+  - `T`: Temperature
+  - `V`: Voltage
+  - `cd`: Candela
+
 # Citation
 
 If you compare with, build on, or use aspects of the AI Feynman work, please cite the following:
